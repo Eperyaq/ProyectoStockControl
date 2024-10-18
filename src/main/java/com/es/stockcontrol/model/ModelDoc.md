@@ -18,7 +18,7 @@ En esta base de datos tenemos 3 tablas:
 - precio_con_iva: float -> not null
 - fecha_alta: Date -> not null
 - proveedor: Proveedor -> Relación de @ManyToOne
-
+- stock: int
 3. Tabla Usuarios
 - nombre_usuario: String -> PrimaryKey
 - password: String -> not null, longitud 20
