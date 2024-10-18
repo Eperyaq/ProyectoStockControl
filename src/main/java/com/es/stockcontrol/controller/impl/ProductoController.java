@@ -9,11 +9,7 @@ import java.util.List;
 
 public class ProductoController implements ProductoControllerAPI {
 
-    private final ProductoService productoService;
-
-    public ProductoController(ProductoService productoService) {
-        this.productoService = productoService;
-    }
+    private final ProductoService productoService = new ProductoService();
 
 
     @Override
