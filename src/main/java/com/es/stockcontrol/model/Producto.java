@@ -30,6 +30,7 @@ public class Producto {
     @Column(name = "fecha_alta_producto",nullable = false)
     private Date fechaAlta;
 
+
     @Column(name = "stock_producto")
     private int stock;
 
