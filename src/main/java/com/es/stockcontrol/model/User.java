@@ -12,7 +12,7 @@ public class User {
     @Id
     private String nombre_usuario;
 
-    @Column(name = "contraseña", nullable = false, length = 20)
+    @Column(name = "contrasenia", nullable = false, length = 20)
     private String contrasenia;
 
     public User() {}
