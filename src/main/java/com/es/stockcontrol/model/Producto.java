@@ -26,6 +26,7 @@ public class Producto {
     @Column(name = "precio_con_iva_producto", nullable = false)
     private float precio_con_iva;
 
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "fecha_alta_producto",nullable = false)
     private Date fechaAlta;
 
