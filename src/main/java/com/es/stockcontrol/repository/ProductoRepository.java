@@ -2,7 +2,6 @@ package com.es.stockcontrol.repository;
 
 import com.es.stockcontrol.model.Producto;
 import jakarta.persistence.*;
-import org.hibernate.Session;
 
 import java.util.List;
 
