@@ -17,7 +17,7 @@ public class ProveedorRepository {
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
-    private void  insert(String nombre, String direccion) {
+    private void insert(String nombre, String direccion) {
 
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre(nombre);
@@ -68,8 +68,28 @@ public class ProveedorRepository {
 
     // modifyProveedor
 
-    private Proveedor modify (String nombre, String direccion){
+    private Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
+        Proveedor proveedor = null;
 
+        try {
+            em.getTransaction().begin();
+            proveedor = em.find(Proveedor.class, id);
+            if (proveedor != null) {
+                proveedor.setNombre(nuevoNombre);
+                proveedor.setDireccion(nuevaDireccion);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+        } finally {
+            if (em != null && em.isOpen()) {
+                emf.close();
+            }
+        }
+        return proveedor;
     }
 
     /**
@@ -81,7 +101,7 @@ public class ProveedorRepository {
         try {
             em.getTransaction().begin();
             proveedor = em.find(Proveedor.class, id);
-            if (proveedor != null){
+            if (proveedor != null) {
                 em.remove(proveedor);
             }
             em.getTransaction().commit();
@@ -98,7 +118,6 @@ public class ProveedorRepository {
         }
 
     }
-
 
 
 }
