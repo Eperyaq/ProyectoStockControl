@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class ProveedorRepository {
 
     // Gestión de conexiones
@@ -66,8 +68,12 @@ public class ProveedorRepository {
         return proveedor;
     }
 
-    // modifyProveedor
-
+    /**
+     * @param id             Identificador del Proveedor a modificar
+     * @param nuevoNombre    El nuevo nombre del Proveedor
+     * @param nuevaDireccion La nueva dirección del Proveedor
+     * @return Devuleve el Proveedor modificado
+     */
     private Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
         Proveedor proveedor = null;
 
@@ -119,5 +125,27 @@ public class ProveedorRepository {
 
     }
 
+    /**
+     * @return Devuelve una lista con todos los registros de la tabla Proveedores
+     */
+    private List<Proveedor> getAll() {
+        List<Proveedor> proveedores = null;
+
+        try {
+            em.getTransaction().begin();
+            proveedores = em.createQuery("SELECT proveedor FROM Proveedor proveedor", Proveedor.class).getResultList();
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+        } finally {
+            if (em != null && em.isOpen()) {
+                emf.close();
+            }
+        }
+        return proveedores;
+    }
 
 }
