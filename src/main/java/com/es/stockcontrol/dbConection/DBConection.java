@@ -4,26 +4,27 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class DBConection {
+public class DBConection implements IDBConection {
 
     /**
      * Singleton. Instancia única de EntityManagerFactory
      */
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ProyectoStock");
 
-
     /**
      * Método para obtener un EntityManager
      */
-    public static EntityManager getEntityManager() {
+    @Override
+    public EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 
     /**
-     * Método para crear EntityManager
+     * Método para cerrar EntityManager
      */
-    public static void closeEntityManager (EntityManager entityManager){
-        if (entityManager != null && entityManager.isOpen()){
+    @Override
+    public void closeEntityManager(EntityManager entityManager) {
+        if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
         }
     }
@@ -31,10 +32,10 @@ public class DBConection {
     /**
      * Método para cerrar EntityManagerFactory al finalizar la aplicación
      */
-    public static  void closeEntityManagerFactory() {
-        if (entityManagerFactory != null && entityManagerFactory.isOpen()){
+    @Override
+    public void closeEntityManagerFactory() {
+        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
     }
-
 }
