@@ -14,6 +14,10 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 import java.util.Scanner;
 
+
+    // TODO  -> he agregado la clase DBConection para q lo tengamos con una unica instancia de EntityManager
+    //              simplemente hay q instanciar la clase de DBconection
+
 public class AppStockControl {
 
 
