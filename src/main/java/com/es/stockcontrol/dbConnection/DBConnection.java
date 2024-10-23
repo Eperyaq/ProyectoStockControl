@@ -1,10 +1,10 @@
-package com.es.stockcontrol.dbConection;
+package com.es.stockcontrol.dbConnection;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class DBConection implements IDBConection {
+public class DBConnection implements IDBConnection {
 
     /**
      * Singleton. Instancia única de EntityManagerFactory
