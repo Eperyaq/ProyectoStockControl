@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class DBConnection {
+public class DBConection {
 
     /**
      * Singleton. Instancia única de EntityManagerFactory
