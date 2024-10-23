@@ -1,6 +1,4 @@
-package com.es.stockcontrol.model;
-
-import java.util.Optional;
+package com.es.stockcontrol.model.entities;
 
 /**
  * Clase que almacena la respuesta que se da desde el Controller al Cliente (main)

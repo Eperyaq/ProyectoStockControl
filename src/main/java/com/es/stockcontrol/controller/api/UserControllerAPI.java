@@ -1,7 +1,7 @@
 package com.es.stockcontrol.controller.api;
 
-import com.es.stockcontrol.model.RespuestaHTTP;
-import com.es.stockcontrol.model.User;
+import com.es.stockcontrol.model.entities.RespuestaHTTP;
+import com.es.stockcontrol.model.entities.User;
 
 public interface UserControllerAPI {
 
