@@ -1,7 +1,7 @@
-package com.es.stockcontrol.service;
+package com.es.stockcontrol.service.impl;
 
-import com.es.stockcontrol.model.Producto;
-import com.es.stockcontrol.repository.ProductoRepository;
+import com.es.stockcontrol.model.entities.Producto;
+import com.es.stockcontrol.repository.impl.ProductoRepository;
 import java.util.List;
 
 public class ProductoService {

@@ -1,4 +1,4 @@
-package com.es.stockcontrol.model;
+package com.es.stockcontrol.model.entities;
 
 import jakarta.persistence.*;
 

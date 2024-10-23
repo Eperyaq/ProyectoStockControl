@@ -1,5 +1,6 @@
-package com.es.stockcontrol.dbConnection;
+package com.es.stockcontrol.dbConnection.dbConnection;
 
+import com.es.stockcontrol.dbConnection.interfaces.IDBConnection;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;

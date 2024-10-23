@@ -1,6 +1,6 @@
-package com.es.stockcontrol.repository;
+package com.es.stockcontrol.repository.impl;
 
-import com.es.stockcontrol.model.Producto;
+import com.es.stockcontrol.model.entities.Producto;
 import jakarta.persistence.*;
 
 import java.util.List;

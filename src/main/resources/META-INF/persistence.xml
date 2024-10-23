@@ -7,9 +7,9 @@
     <persistence-unit name="ProyectoStock" transaction-type="RESOURCE_LOCAL">
 
         <!-- Qué clases queremos mapear -->
-        <class>com.es.stockcontrol.model.Producto</class>
-        <class>com.es.stockcontrol.model.Proveedor</class>
-        <class>com.es.stockcontrol.model.User</class>
+        <class>com.es.stockcontrol.model.entities.Producto</class>
+        <class>com.es.stockcontrol.model.entities.Proveedor</class>
+        <class>com.es.stockcontrol.model.entities.User</class>
 
         <properties>
             <!-- Qué BDD usar -->

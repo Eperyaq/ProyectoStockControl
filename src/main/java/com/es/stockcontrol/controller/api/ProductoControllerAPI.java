@@ -1,7 +1,7 @@
 package com.es.stockcontrol.controller.api;
 
-import com.es.stockcontrol.model.Producto;
-import com.es.stockcontrol.model.RespuestaHTTP;
+import com.es.stockcontrol.model.entities.Producto;
+import com.es.stockcontrol.model.entities.RespuestaHTTP;
 
 import java.util.List;
 

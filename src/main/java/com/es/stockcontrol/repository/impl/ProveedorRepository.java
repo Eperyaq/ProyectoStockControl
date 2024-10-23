@@ -1,23 +1,27 @@
-package com.es.stockcontrol.repository;
+package com.es.stockcontrol.repository.impl;
 
-import com.es.stockcontrol.dbConnection.IDBConnection;
-import com.es.stockcontrol.model.Proveedor;
+import com.es.stockcontrol.dbConnection.interfaces.IDBConnection;
+import com.es.stockcontrol.model.entities.Proveedor;
+import com.es.stockcontrol.repository.interfaces.IProveedorRepository;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
 
-/**
+/**<p>
  * La clase ProveedorRepository proporciona los métodos CRUD para gestionar la entidad Proveedor.
  * Se encarga de realizar operaciones de creación, lectura, actualización y eliminación
  * de proveedores en la base de datos utilizando un EntityManager proporcionado por IDBConnection.
- *
- * Cada método CRUD crea su propio EntityManager para manejar la operación específica,
+ * </p>
+ * <p>
+ *     Cada método CRUD crea su propio EntityManager para manejar la operación específica,
  * iniciando y confirmando transacciones, y liberando los recursos de la conexión al finalizar.
- *
- * <p>Esta clase utiliza el patrón de repositorio para separar la lógica de acceso a datos de la lógica de negocio.</p>
+ *</p>
+ * <p>
+ *     Esta clase utiliza el patrón de repositorio para separar la lógica de acceso a datos de la lógica de negocio.
+ * </p>
  */
-public class ProveedorRepository {
+public class ProveedorRepository implements IProveedorRepository {
 
     private final IDBConnection dbConnection;
 
@@ -37,7 +41,8 @@ public class ProveedorRepository {
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
-    private void insert(String nombre, String direccion) {
+    @Override
+    public void insert(String nombre, String direccion) {
         EntityManager em = dbConnection.getEntityManager();
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre(nombre);
@@ -67,7 +72,8 @@ public class ProveedorRepository {
      * @param id Identificador del proveedor
      * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
-    private Proveedor getProveedorById(long id) {
+    @Override
+    public Proveedor getProveedorById(long id) {
         EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
@@ -96,7 +102,8 @@ public class ProveedorRepository {
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
      */
-    private Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
+    @Override
+    public Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
         EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
@@ -126,7 +133,8 @@ public class ProveedorRepository {
      * Elimina un proveedor por su ID.
      * @param id Identificador del proveedor a eliminar
      */
-    private void delete(long id) {
+    @Override
+    public void delete(long id) {
         EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
@@ -155,7 +163,8 @@ public class ProveedorRepository {
      * Obtiene una lista de todos los proveedores registrados en la base de datos.
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
-    private List<Proveedor> getAll() {
+    @Override
+    public List<Proveedor> getAll() {
         EntityManager em = dbConnection.getEntityManager();
         List<Proveedor> proveedores = null;
 
