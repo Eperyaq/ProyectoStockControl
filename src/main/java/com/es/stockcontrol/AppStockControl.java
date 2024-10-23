@@ -15,9 +15,17 @@ import java.util.List;
 import java.util.Scanner;
 
 
-    // TODO  -> he agregado la clase DBConection para q lo tengamos con una unica instancia de EntityManager
-    //              simplemente hay q instanciar la clase de DBconection
-
+    /*
+    TODO  -> he agregado la clase DBConection para q lo tengamos con una unica instancia de EntityManager
+    /             simplemente hay q instanciar la clase de DBconection:
+    ----------------------------------------------------------------------------------------------------------------------------
+        private final EntityManager em;
+    // Constructor que recibe la conexión como dependencia
+    public ProveedorRepository(IDBConnection dbConnection) {
+        this.em = dbConnection.getEntityManager(); // Inicializar el EntityManager al crear la instancia
+    }
+    ----------------------------------------------------------------------------------------------------------------------------
+*/
 public class AppStockControl {
 
 

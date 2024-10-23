@@ -1,26 +1,44 @@
 package com.es.stockcontrol.repository;
 
+import com.es.stockcontrol.dbConnection.IDBConnection;
 import com.es.stockcontrol.model.Proveedor;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 import java.util.List;
 
+
+/**
+ * La clase ProveedorRepository proporciona los métodos CRUD para gestionar la entidad Proveedor.
+ * Se encarga de realizar operaciones de creación, lectura, actualización y eliminación
+ * de proveedores en la base de datos utilizando un EntityManager proporcionado por IDBConnection.
+ *
+ * Cada método CRUD crea su propio EntityManager para manejar la operación específica,
+ * iniciando y confirmando transacciones, y liberando los recursos de la conexión al finalizar.
+ *
+ * <p>Esta clase utiliza el patrón de repositorio para separar la lógica de acceso a datos de la lógica de negocio.</p>
+ */
 public class ProveedorRepository {
 
-    // Gestión de conexiones
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
-    EntityManager em = emf.createEntityManager();
-
-    // CRUD
+    private final IDBConnection dbConnection;
 
     /**
+     * Constructor de la clase ProveedorRepository.
+     * Recibe un objeto IDBConnection para gestionar las conexiones con la base de datos.
+     *
+     * @param dbConnection El objeto de conexión que proporciona los EntityManager necesarios.
+     */
+    public ProveedorRepository(IDBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
+    /**
+     * CREATE
+     * Inserta un nuevo proveedor en la base de datos.
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
     private void insert(String nombre, String direccion) {
-
+        EntityManager em = dbConnection.getEntityManager();
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre(nombre);
         nuevoProveedor.setDireccion(direccion);
@@ -37,17 +55,20 @@ public class ProveedorRepository {
 
         } finally {
             if (em != null && em.isOpen()) {
-                emf.close();
+                em.close();
             }
         }
     }
 
 
     /**
+     * READ
+     * Busca un proveedor por su ID.
      * @param id Identificador del proveedor
-     * @return Devuelve el Proveedor que coincida con id
+     * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
     private Proveedor getProveedorById(long id) {
+        EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
         try {
@@ -62,19 +83,21 @@ public class ProveedorRepository {
 
         } finally {
             if (em != null && em.isOpen()) {
-                emf.close();
+                em.close();
             }
         }
         return proveedor;
     }
 
     /**
-     * @param id             Identificador del Proveedor a modificar
+     * UPDATE
+     * @param id Identificador del Proveedor a modificar
      * @param nuevoNombre    El nuevo nombre del Proveedor
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
      */
     private Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
+        EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
         try {
@@ -92,16 +115,19 @@ public class ProveedorRepository {
 
         } finally {
             if (em != null && em.isOpen()) {
-                emf.close();
+                em.close();
             }
         }
         return proveedor;
     }
 
     /**
-     * @param id Identificador del proveedor
+     * DELETE
+     * Elimina un proveedor por su ID.
+     * @param id Identificador del proveedor a eliminar
      */
     private void delete(long id) {
+        EntityManager em = dbConnection.getEntityManager();
         Proveedor proveedor = null;
 
         try {
@@ -119,16 +145,18 @@ public class ProveedorRepository {
 
         } finally {
             if (em != null && em.isOpen()) {
-                emf.close();
+                em.close();
             }
         }
 
     }
 
     /**
+     * Obtiene una lista de todos los proveedores registrados en la base de datos.
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
     private List<Proveedor> getAll() {
+        EntityManager em = dbConnection.getEntityManager();
         List<Proveedor> proveedores = null;
 
         try {
@@ -142,7 +170,7 @@ public class ProveedorRepository {
 
         } finally {
             if (em != null && em.isOpen()) {
-                emf.close();
+                em.close();
             }
         }
         return proveedores;
