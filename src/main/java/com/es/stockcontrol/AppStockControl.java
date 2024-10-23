@@ -16,8 +16,8 @@ import java.util.Scanner;
 
 
     /*
-    TODO  -> he agregado la clase DBConection para q lo tengamos con una unica instancia de EntityManager
-    /             simplemente hay q instanciar la clase de DBconection:
+    TODO  -> he agregado la clase DBConnection para q lo tengamos con una unica instancia de EntityManager
+    /             simplemente hay q instanciar la clase de DBConnection:
     ----------------------------------------------------------------------------------------------------------------------------
         private final EntityManager em;
     // Constructor que recibe la conexión como dependencia
