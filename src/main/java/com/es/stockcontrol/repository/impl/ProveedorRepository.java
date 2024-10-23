@@ -136,7 +136,7 @@ public class ProveedorRepository implements IProveedorRepository {
     @Override
     public void delete(long id) {
         EntityManager em = dbConnection.getEntityManager();
-        Proveedor proveedor = null;
+        Proveedor proveedor;
 
         try {
             em.getTransaction().begin();
