@@ -1,6 +1,6 @@
 package com.es.stockcontrol.service;
 
-import com.es.stockcontrol.model.User;
+import com.es.stockcontrol.model.entities.User;
 import com.es.stockcontrol.repository.UserRepository;
 
 import java.security.PublicKey;

@@ -1,6 +1,6 @@
 package com.es.stockcontrol.repository;
 
-import com.es.stockcontrol.model.User;
+import com.es.stockcontrol.model.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
