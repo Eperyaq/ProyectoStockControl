@@ -4,7 +4,7 @@ package com.es.stockcontrol.controller.impl;
 import com.es.stockcontrol.controller.api.UserControllerAPI;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
-import com.es.stockcontrol.service.UserService;
+import com.es.stockcontrol.service.impl.UserService;
 
 public class UserController implements UserControllerAPI {
 UserService service = new UserService();
