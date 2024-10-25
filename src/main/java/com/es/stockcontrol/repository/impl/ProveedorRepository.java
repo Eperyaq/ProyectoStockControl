@@ -14,7 +14,7 @@ import java.util.List;
  * de proveedores en la base de datos utilizando un EntityManager proporcionado por IDBConnection.
  * </p>
  * <p>
- *     Cada método CRUD crea su propio EntityManager para manejar la operación específica,
+ * sCada método CRUD crea su propio EntityManager para manejar la operación específica,
  * iniciando y confirmando transacciones, y liberando los recursos de la conexión al finalizar.
  *</p>
  * <p>
