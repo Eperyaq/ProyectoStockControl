@@ -191,6 +191,11 @@ public class ProveedorRepository implements IProveedorRepository {
         return proveedores;
     }
 
+    /**
+     * Obtiene una lista de proveedores que suministran un producto específico.
+     * @param idProducto El identificador del producto.
+     * @return Lista de proveedores que suministran el producto dado.
+     */
     @Override
     public List<Proveedor> getProveedoresPorProducto(String idProducto) {
         EntityManager em = dbConnection.getEntityManager();

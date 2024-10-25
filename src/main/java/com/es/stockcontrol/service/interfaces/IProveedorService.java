@@ -20,4 +20,5 @@ public interface IProveedorService {
     Proveedor updateProveedor(long id, String nuevoNombre, String nuevaDireccion);
     void deleteProveedor(long id);
     List<Proveedor> getAllProveedores();
+    List<Proveedor> getProveedoresPorProducto(String idProducto);
 }

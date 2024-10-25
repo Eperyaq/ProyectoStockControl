@@ -15,7 +15,6 @@ public class ProveedorService implements IProveedorService {
 
     /**
      * Constructor que recibe un repositorio de proveedores para manejar las operaciones CRUD.
-     *
      * @param proveedorRepository El repositorio de proveedores a utilizar.
      */
     public ProveedorService(ProveedorRepository proveedorRepository) {
@@ -46,6 +45,12 @@ public class ProveedorService implements IProveedorService {
     @Override
     public List<Proveedor> getAllProveedores() {
         List<Proveedor> proveedores = proveedorRepository.getAll();
+        return (proveedores != null) ? proveedores : List.of();
+    }
+
+    @Override
+    public List<Proveedor> getProveedoresPorProducto(String idProducto) {
+        List<Proveedor> proveedores = proveedorRepository.getProveedoresPorProducto(idProducto);
         return (proveedores != null) ? proveedores : List.of();
     }
 

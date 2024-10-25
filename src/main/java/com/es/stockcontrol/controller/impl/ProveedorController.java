@@ -25,9 +25,20 @@ public class ProveedorController implements ProveedorControllerAPI {
         this.productoService = productoService;
     }
 
+    /**
+     * Obtiene una lista de proveedores que suministran un producto específico.
+     * @param idProducto El identificador del producto a buscar.
+     * @return Un objeto {@link RespuestaHTTP} que contiene:
+     * <ul>
+     *     <li>Código 200 si se encontraron proveedores, con la lista de proveedores.</li>
+     *     <li>Código 400 si el ID del producto proporcionado es inválido.</li>
+     *     <li>Código 404 si no se encuentra el producto o no hay proveedores relacionados.</li>
+     *     <li>Código 500 si ocurre un error interno en el servidor.</li>
+     * </ul>
+     */
     @Override
     public RespuestaHTTP<List<Proveedor>> getProveedoresProducto(String idProducto) {
-        List<Proveedor> proveedores = proveedorService.
+
         try {
             if (idProducto == null || idProducto.isEmpty()) {
                 return new RespuestaHTTP<>(400, "ID de producto inválido.", null);
@@ -35,20 +46,38 @@ public class ProveedorController implements ProveedorControllerAPI {
             if (productoService.getProductoById(idProducto) == null) {
                 return new RespuestaHTTP<>(404, "Producto no encontrado", null);
             }
+            List<Proveedor> proveedores = proveedorService.getProveedoresPorProducto(idProducto);
+            if (proveedores != null && !proveedores.isEmpty()) {
+                return new RespuestaHTTP<>(200, "Proveedores encontrados", proveedores);
+            } else {
+                return new RespuestaHTTP<>(404, "No se encontraron proveedores del producto", null);
+            }
         } catch (Exception e) {
             return new RespuestaHTTP<>(500, "Error interno del servidor " + e.getMessage(), null);
         }
-
     }
 
+    /**
+     * Obtiene una lista de todos los proveedores registrados en la base de datos.
+     * @return Un objeto {@link RespuestaHTTP} que contiene:
+     * <ul>
+     *     <li>Código 200 si se encontraron proveedores, con la lista de proveedores.</li>
+     *     <li>Código 404 si no se encuentran proveedores registrados.</li>
+     *     <li>Código 500 si ocurre un error interno en el servidor.</li>
+     * </ul>
+     */
     @Override
     public RespuestaHTTP<List<Proveedor>> getTodosProveedores() {
-        List<Proveedor> proveedores = proveedorService.getAllProveedores();
+
         try {
-            if (proveedores)
+            List<Proveedor> proveedores = proveedorService.getAllProveedores();
+            if (proveedores != null && !proveedores.isEmpty()) {
+                return new RespuestaHTTP<>(200, "Proveedores encontrados", proveedores);
+            } else {
+                return new RespuestaHTTP<>(404, "Proveedores no encontrados", null);
+            }
         } catch (Exception e) {
             return new RespuestaHTTP<>(500, "Error interno del servidor " + e.getMessage(), null);
         }
-        return null;
     }
 }
