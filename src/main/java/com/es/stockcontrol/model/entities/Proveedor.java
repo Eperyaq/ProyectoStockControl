@@ -25,9 +25,10 @@ public class Proveedor {
     private List<Producto> listaProductos;
 
 
-    public Proveedor() {}
+    public Proveedor() {
+    }
 
-    public Proveedor( String nombre, String direccion, List<Producto> listaProductos) {
+    public Proveedor(String nombre, String direccion, List<Producto> listaProductos) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.listaProductos = listaProductos;
@@ -63,5 +64,15 @@ public class Proveedor {
 
     public void setListaProductos(List<Producto> listaProductos) {
         this.listaProductos = listaProductos;
+    }
+
+    @Override
+    public String toString() {
+        return """
+                Proveedor ->
+                Id: %d
+                Nombre: '%s'
+                Dirección: '%s'
+                """.formatted(id,nombre,direccion);
     }
 }

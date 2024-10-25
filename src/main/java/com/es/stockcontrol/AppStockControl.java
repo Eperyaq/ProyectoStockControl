@@ -7,6 +7,7 @@ import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
+import com.es.stockcontrol.service.impl.ProveedorService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -15,17 +16,10 @@ import java.util.List;
 import java.util.Scanner;
 
 
-    /*
-    TODO  -> he agregado la clase DBConnection para q lo tengamos con una unica instancia de EntityManager
-    /             simplemente hay q instanciar la clase de DBConnection:
-    ----------------------------------------------------------------------------------------------------------------------------
-        private final EntityManager em;
-    // Constructor que recibe la conexión como dependencia
-    public ProveedorRepository(IDBConnection dbConnection) {
-        this.em = dbConnection.getEntityManager(); // Inicializar el EntityManager al crear la instancia
-    }
-    ----------------------------------------------------------------------------------------------------------------------------
-*/
+/*
+    TODO
+
+ */
 public class AppStockControl {
 
 
