@@ -8,7 +8,8 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 
-/**<p>
+/**
+ * <p>
  * La clase ProveedorRepository proporciona los métodos CRUD para gestionar la entidad Proveedor.
  * Se encarga de realizar operaciones de creación, lectura, actualización y eliminación
  * de proveedores en la base de datos utilizando un EntityManager proporcionado por IDBConnection.
@@ -16,9 +17,9 @@ import java.util.List;
  * <p>
  * Cada método CRUD crea su propio EntityManager para manejar la operación específica,
  * iniciando y confirmando transacciones, y liberando los recursos de la conexión al finalizar.
- *</p>
+ * </p>
  * <p>
- *     Esta clase utiliza el patrón de repositorio para separar la lógica de acceso a datos de la lógica de negocio.
+ * Esta clase utiliza el patrón de repositorio para separar la lógica de acceso a datos de la lógica de negocio.
  * </p>
  */
 public class ProveedorRepository implements IProveedorRepository {
@@ -38,6 +39,7 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * CREATE
      * Inserta un nuevo proveedor en la base de datos.
+     *
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
@@ -69,6 +71,7 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * READ
      * Busca un proveedor por su ID.
+     *
      * @param id Identificador del proveedor
      * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
@@ -97,7 +100,8 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * UPDATE
-     * @param id Identificador del Proveedor a modificar
+     *
+     * @param id             Identificador del Proveedor a modificar
      * @param nuevoNombre    El nuevo nombre del Proveedor
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
@@ -131,6 +135,7 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * DELETE
      * Elimina un proveedor por su ID.
+     *
      * @param id Identificador del proveedor a eliminar
      */
     @Override
@@ -161,6 +166,7 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * Obtiene una lista de todos los proveedores registrados en la base de datos.
+     *
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
     @Override
@@ -184,5 +190,33 @@ public class ProveedorRepository implements IProveedorRepository {
         }
         return proveedores;
     }
+
+    @Override
+    public List<Proveedor> getProveedoresPorProducto(String idProducto) {
+        EntityManager em = dbConnection.getEntityManager();
+        List<Proveedor> proveedores = null;
+
+        try {
+            em.getTransaction().begin();
+            proveedores = em.createQuery(
+                    """
+                            SELECT proveedor FROM Proveedor proveedor
+                            JOIN proveedor.productos producto
+                            WHERE producto.id =: idProducto;
+                            """,Proveedor.class)
+                    .setParameter("idProducto", idProducto)
+                    .getResultList();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+        return (proveedores != null) ? proveedores : List.of();
+    }
+
 
 }
