@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-class DBConnection {
+public class DBConnection {
 
     /**
      * Singleton. Instancia única de EntityManagerFactory
@@ -21,7 +21,7 @@ class DBConnection {
     /**
      * Método para cerrar EntityManager
      */
-    public void closeEntityManager(EntityManager entityManager) {
+    public static void closeEntityManager(EntityManager entityManager) {
         if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
         }

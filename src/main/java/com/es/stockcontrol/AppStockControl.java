@@ -3,8 +3,7 @@ package com.es.stockcontrol;
 import com.es.stockcontrol.controller.impl.ProductoController;
 import com.es.stockcontrol.controller.impl.ProveedorController;
 import com.es.stockcontrol.controller.impl.UserController;
-import com.es.stockcontrol.dbConnection.dbConnection.DBConnection;
-import com.es.stockcontrol.dbConnection.interfaces.IDBConnection;
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
@@ -32,8 +31,6 @@ public class AppStockControl {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
         EntityManager em = emf.createEntityManager();
 
-        IDBConnection dbConnection = new DBConnection();
-
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
          */
@@ -41,6 +38,7 @@ public class AppStockControl {
         boolean login = false;  // Variable para comprobar si se hace un login correcto o no
         User user = new User(); // Variable para almacenar al usuario que se ha logeado
 
+        DBConnection dbConnection = new DBConnection();
         ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
         ProveedorService proveedorService = new ProveedorService(proveedorRepository);
         ProductoService productoService = new ProductoService();
