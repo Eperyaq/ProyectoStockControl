@@ -74,8 +74,7 @@ public class ProductoRepository {
                 e.printStackTrace();
             }
         }
-
-
+        
         return producto;
     }
 
@@ -106,7 +105,6 @@ public class ProductoRepository {
 
 
     public Producto getProductoById(String id) {
-
         return em.find(Producto.class, id);
     }
 
