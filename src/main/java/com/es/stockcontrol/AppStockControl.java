@@ -17,6 +17,13 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
+ QUERY PARA AÑADIR UN USUARIO
+        INSERT INTO user (nombre_usuario, contrasenia)
+        VALUES ('Elia', '123');
+
+
+
+    -- se ha eliminado estas lineas para implementar la instancia de DBConnection
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
     EntityManager em = emf.createEntityManager();
 
