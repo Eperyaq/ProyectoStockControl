@@ -3,33 +3,41 @@ package com.es.stockcontrol;
 import com.es.stockcontrol.controller.impl.ProductoController;
 import com.es.stockcontrol.controller.impl.ProveedorController;
 import com.es.stockcontrol.controller.impl.UserController;
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
+import com.es.stockcontrol.repository.impl.ProveedorRepository;
+import com.es.stockcontrol.service.impl.ProductoService;
 import com.es.stockcontrol.service.impl.ProveedorService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
 
 import java.util.List;
 import java.util.Scanner;
 
-
 /*
-    TODO
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
+    EntityManager em = emf.createEntityManager();
 
- */
+
+    -- en repository --
+
+    private final DBConnection dbConnection;
+
+    public ProveedorRepository(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
+*/
+
 public class AppStockControl {
 
+    private static ProveedorController proveedorController;
+    private static ProveedorService proveedorService;
+    private static ProductoService productoService;
 
     public static void main(String[] args) {
-
-        /*
-        QUERY PARA AÑADIR UN USUARIO
-        INSERT INTO user (nombre_usuario, contrasenia)
-        VALUES ('Elia', '123');
-         */
 
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
@@ -38,6 +46,11 @@ public class AppStockControl {
         boolean login = false;  // Variable para comprobar si se hace un login correcto o no
         User user = new User(); // Variable para almacenar al usuario que se ha logado
 
+        // Repository Proveedor con DBConnection
+        ProveedorRepository proveedorRepository = new ProveedorRepository((DBConnection) DBConnection.getEntityManager());
+        proveedorService = new ProveedorService(proveedorRepository);
+        productoService = new ProductoService();
+        proveedorController = new ProveedorController(proveedorService, productoService);
         /*
         1A PARTE. LOGIN
 
@@ -56,7 +69,7 @@ public class AppStockControl {
                     ******************************************************
                     ****    Bienvenid@ a StockControl               ******
                     ******************************************************
-                    
+
                     Introduzca su usuario y contrasena para continuar (0 para salir)
                     """);
             System.out.print("user: ");
@@ -77,7 +90,7 @@ public class AppStockControl {
                     if (respuestaHTTP.getCodigo() == 200) {
                         if (respuestaHTTP.getObj() != null) {
                             System.out.println("Bienvenid@");
-                            //user = respuestaHTTP.getObj();
+                            user = respuestaHTTP.getObj();
                             login = true;
                         } else {
                             System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
@@ -106,10 +119,9 @@ public class AppStockControl {
         8. Get proveedores de un producto
         9. Get todos los proveedores
          */
-        /*
         String opc;
 
-        ProveedorController proveedorController = new ProveedorController();
+        // ProveedorController proveedorController = new ProveedorController();
         do {
             System.out.println("""
                     ******************************************************
@@ -312,7 +324,6 @@ public class AppStockControl {
 
     public static void getProveedoresDeUnProducto() {
         Scanner scan = new Scanner(System.in);
-        ProveedorController proveedorController = new ProveedorController();
         System.out.println("8. Get proveedores de un producto");
 
         System.out.print("Introduzca el id del producto: ");
@@ -331,7 +342,6 @@ public class AppStockControl {
     }
 
     public static void getTodosLosProveedores() {
-        ProveedorController proveedorController = new ProveedorController();
 
         System.out.println("9. Get todos los proveedores");
 
@@ -346,8 +356,5 @@ public class AppStockControl {
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
         }
-    }
-}
-*/
     }
 }
