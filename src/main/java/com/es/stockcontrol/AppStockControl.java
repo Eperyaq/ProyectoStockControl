@@ -77,7 +77,8 @@ public class AppStockControl {
                     if (respuestaHTTP.getCodigo() == 200) {
                         if (respuestaHTTP.getObj() != null) {
                             System.out.println("Bienvenid@");
-                            //user = respuestaHTTP.getObj();
+                            user = respuestaHTTP.getObj();
+                            System.out.println(user.toString());
                             login = true;
                         } else {
                             System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");

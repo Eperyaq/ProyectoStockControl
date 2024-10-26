@@ -18,10 +18,10 @@ UserService service = new UserService();
         }else {
             User usuarioDentro = service.getUser(userInput);
 
-            if(passInput == usuarioDentro.getContrasenia()){
+            if (usuarioDentro != null && passInput.equals(usuarioDentro.getContrasenia())) {
                 return new RespuestaHTTP<>(200, "ok", usuarioDentro);
-            }else {
-                return new RespuestaHTTP<>(404, "Not found",null);
+            } else {
+                return new RespuestaHTTP<>(404, "Not found", null);
             }
 
         }

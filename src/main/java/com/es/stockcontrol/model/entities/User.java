@@ -37,4 +37,11 @@ public class User {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nombre_usuario='" + nombre_usuario + '\'' +
+                '}';
+    }
 }
