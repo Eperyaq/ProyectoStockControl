@@ -20,4 +20,5 @@ public interface IProveedorRepository {
     void delete(long id);
     List<Proveedor> getAll();
     List<Proveedor> getProveedoresPorProducto(String idProducto);
+    Proveedor getProveedorByNombre(String nombre);
 }
