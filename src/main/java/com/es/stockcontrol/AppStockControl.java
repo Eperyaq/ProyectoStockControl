@@ -25,12 +25,16 @@ import java.util.Scanner;
  */
 public class AppStockControl {
 
+    private static DBConnection dbConnection;
+    private static ProveedorController proveedorController;
+    private static ProveedorService proveedorService;
+    private static ProductoService productoService;
 
     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
         EntityManager em = emf.createEntityManager();
-
+        dbConnection = new DBConnection();
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
          */
@@ -38,13 +42,9 @@ public class AppStockControl {
         boolean login = false;  // Variable para comprobar si se hace un login correcto o no
         User user = new User(); // Variable para almacenar al usuario que se ha logeado
 
-        DBConnection dbConnection = new DBConnection();
         ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
-        ProveedorService proveedorService = new ProveedorService(proveedorRepository);
-        ProductoService productoService = new ProductoService();
-        ProveedorController proveedorController = new ProveedorController(proveedorService, productoService);
-        proveedorService = new ProveedorService(proveedorRepository);
         productoService = new ProductoService();
+        proveedorService = new ProveedorService(proveedorRepository);
         proveedorController = new ProveedorController(proveedorService, productoService);
         /*
         1A PARTE. LOGIN
@@ -326,7 +326,7 @@ public class AppStockControl {
 
         System.out.print("Introduzca el id del producto: ");
         String idProducto = scan.nextLine();
-        RespuestaHTTP<List<Proveedor>> respuesta = proveedorController.getProveedoresDeUnProducto(idProducto);
+        RespuestaHTTP<List<Proveedor>> respuesta = proveedorController.getProveedoresProducto(idProducto);
         //proveedorController.getProveedoresProducto(idProducto);
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
