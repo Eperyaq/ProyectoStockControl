@@ -34,6 +34,11 @@ public class Proveedor {
         this.listaProductos = listaProductos;
     }
 
+    public Proveedor(String nombre, String direccion) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+    }
+
     public long getId() {
         return id;
     }
