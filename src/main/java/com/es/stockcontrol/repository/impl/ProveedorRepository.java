@@ -24,17 +24,27 @@ import java.util.List;
  */
 public class ProveedorRepository implements IProveedorRepository {
 
+    private final DBConnection dbConnection;
+
+    /**
+     * Constructor de la clase ProveedorRepository.
+     * Recibe un objeto IDBConnection para gestionar las conexiones con la base de datos.
+     * @param dbConnection El objeto de conexión que proporciona los EntityManager necesarios.
+     */
+    public ProveedorRepository(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
     /**
      * CREATE
      * Inserta un nuevo proveedor en la base de datos.
-     *
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
     @Override
     public void insert(String nombre, String direccion) {
 
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre(nombre);
         nuevoProveedor.setDireccion(direccion);
@@ -60,13 +70,12 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * READ
      * Busca un proveedor por su ID.
-     *
      * @param id Identificador del proveedor
      * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
     @Override
     public Proveedor getProveedorById(long id) {
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         Proveedor proveedor = null;
 
         try {
@@ -89,15 +98,14 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * UPDATE
-     *
-     * @param id             Identificador del Proveedor a modificar
-     * @param nuevoNombre    El nuevo nombre del Proveedor
+     * @param id Identificador del Proveedor a modificar
+     * @param nuevoNombre El nuevo nombre del Proveedor
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
      */
     @Override
     public Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         Proveedor proveedor = null;
 
         try {
@@ -124,12 +132,11 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * DELETE
      * Elimina un proveedor por su ID.
-     *
      * @param id Identificador del proveedor a eliminar
      */
     @Override
     public void delete(long id) {
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         Proveedor proveedor;
 
         try {
@@ -155,12 +162,11 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * Obtiene una lista de todos los proveedores registrados en la base de datos.
-     *
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
     @Override
     public List<Proveedor> getAll() {
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         List<Proveedor> proveedores = null;
 
         try {
@@ -187,7 +193,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public List<Proveedor> getProveedoresPorProducto(String idProducto) {
-        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
+        EntityManager em = DBConnection.getEntityManager();
         List<Proveedor> proveedores = null;
 
         try {
@@ -211,6 +217,4 @@ public class ProveedorRepository implements IProveedorRepository {
         }
         return (proveedores != null) ? proveedores : List.of();
     }
-
-
 }

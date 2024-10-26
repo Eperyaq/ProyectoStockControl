@@ -20,20 +20,11 @@ public class DBConnection {
     }
 
     /**
-     * Método para cerrar EntityManager
-     */
-    public static void closeEntityManager(EntityManager entityManager) {
-        if (entityManager != null && entityManager.isOpen()) {
-            entityManager.close();
-        }
-    }
-
-    /**
      * Método para cerrar EntityManagerFactory al finalizar la aplicación
      */
     public void closeEntityManagerFactory() {
-        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
-            entityManagerFactory.close();
+            if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+                entityManagerFactory.close();
         }
     }
 }
