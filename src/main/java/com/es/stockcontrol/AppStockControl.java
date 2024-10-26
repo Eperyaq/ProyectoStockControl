@@ -9,6 +9,7 @@ import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
 import com.es.stockcontrol.repository.impl.ProveedorRepository;
+import com.es.stockcontrol.repository.impl.UserRepository;
 import com.es.stockcontrol.service.impl.ProductoService;
 import com.es.stockcontrol.service.impl.ProveedorService;
 
@@ -19,6 +20,9 @@ import java.util.Scanner;
 /*
     TODO
 
+    Arreglar Dar de alta (no mete el proveedor en el producto)
+
+    Mejorar codigo
  */
 public class AppStockControl {
 
@@ -40,6 +44,19 @@ public class AppStockControl {
         INSERT INTO user (nombre_usuario, contrasenia)
         VALUES ('Manu', '1');
          */
+        UserRepository userRepository = new UserRepository();
+
+        if (userRepository.getUser("Elia") == null) {
+            userRepository.insert("Elia", "123");
+        }
+
+        if (userRepository.getUser("Sara") == null) {
+            userRepository.insert("Sara", "12");
+        }
+
+        if (userRepository.getUser("Manu") == null) {
+            userRepository.insert("Manu", "1");
+        }
 
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
@@ -76,29 +93,28 @@ public class AppStockControl {
                 System.out.println("Saliendo...");
                 System.exit(0);
             } else {
-//                System.out.print("password: ");
-//                String passwordInput = scan.nextLine();
+                System.out.print("password: ");
+                String passwordInput = scan.nextLine();
 
                 UserController pController = new UserController();
 
-//                RespuestaHTTP<User> respuestaHTTP = pController.login(userInput, passwordInput);
+                RespuestaHTTP<User> respuestaHTTP = pController.login(userInput, passwordInput);
 
-//                try {
-//                    if (respuestaHTTP.getCodigo() == 200) {
-//                        if (respuestaHTTP.getObj() != null) {
-//                            user = respuestaHTTP.getObj();
-//                            System.out.println("Bienvenid@ " + user.getNombre_usuario() + "!");
-//                            login = true;
-//                        } else {
-//                            System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
-//                        }
-//                    } else {
-//                        System.out.printf("Error en el login\n\t-codigo %d\n\t-%s\n", respuestaHTTP.getCodigo(), respuestaHTTP.getMensaje());
-//                    }
-//                } catch (Exception e) {
-//                    System.out.println("Error controlado");
-//                }
-                login = true;
+                try {
+                    if (respuestaHTTP.getCodigo() == 200) {
+                        if (respuestaHTTP.getObj() != null) {
+                            user = respuestaHTTP.getObj();
+                            System.out.println("Bienvenid@ " + user.getNombre_usuario() + "!");
+                            login = true;
+                        } else {
+                            System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
+                        }
+                    } else {
+                        System.out.printf("Error en el login\n\t-codigo %d\n\t-%s\n", respuestaHTTP.getCodigo(), respuestaHTTP.getMensaje());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error controlado");
+                }
             }
         } while (!login);
 
