@@ -29,6 +29,12 @@ public class AppStockControl {
         QUERY PARA AÑADIR UN USUARIO
         INSERT INTO user (nombre_usuario, contrasenia)
         VALUES ('Elia', '123');
+
+        INSERT INTO user (nombre_usuario, contrasenia)
+        VALUES ('Sara', '12');
+
+        INSERT INTO user (nombre_usuario, contrasenia)
+        VALUES ('Manu', '1');
          */
 
         /*
@@ -76,9 +82,8 @@ public class AppStockControl {
                 try {
                     if (respuestaHTTP.getCodigo() == 200) {
                         if (respuestaHTTP.getObj() != null) {
-                            System.out.println("Bienvenid@");
                             user = respuestaHTTP.getObj();
-                            System.out.println(user.toString());
+                            System.out.println("Bienvenid@ " + user.getNombre_usuario() + "!");
                             login = true;
                         } else {
                             System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
