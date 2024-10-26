@@ -29,7 +29,6 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * Constructor de la clase ProveedorRepository.
      * Recibe un objeto IDBConnection para gestionar las conexiones con la base de datos.
-     *
      * @param dbConnection El objeto de conexión que proporciona los EntityManager necesarios.
      */
     public ProveedorRepository(DBConnection dbConnection) {
@@ -39,7 +38,6 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * CREATE
      * Inserta un nuevo proveedor en la base de datos.
-     *
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
@@ -71,7 +69,6 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * READ
      * Busca un proveedor por su ID.
-     *
      * @param id Identificador del proveedor
      * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
@@ -100,9 +97,8 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * UPDATE
-     *
-     * @param id             Identificador del Proveedor a modificar
-     * @param nuevoNombre    El nuevo nombre del Proveedor
+     * @param id Identificador del Proveedor a modificar
+     * @param nuevoNombre El nuevo nombre del Proveedor
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
      */
@@ -135,7 +131,6 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * DELETE
      * Elimina un proveedor por su ID.
-     *
      * @param id Identificador del proveedor a eliminar
      */
     @Override
@@ -166,7 +161,6 @@ public class ProveedorRepository implements IProveedorRepository {
 
     /**
      * Obtiene una lista de todos los proveedores registrados en la base de datos.
-     *
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
     @Override
@@ -222,6 +216,4 @@ public class ProveedorRepository implements IProveedorRepository {
         }
         return (proveedores != null) ? proveedores : List.of();
     }
-
-
 }

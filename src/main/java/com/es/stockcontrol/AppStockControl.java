@@ -135,6 +135,7 @@ public class AppStockControl {
                     0. Salir
                     """);
             System.out.print("Seleccione una opción: ");
+
             opc = scan.nextLine();
 
             try {
@@ -318,14 +319,14 @@ public class AppStockControl {
     }
 
     public static void getProveedoresDeUnProducto() {
+
         Scanner scan = new Scanner(System.in);
-        //ProveedorController proveedorController = new ProveedorController();
         //ProveedorController proveedorController = new ProveedorController(proveedorService, productoService);
         System.out.println("8. Get proveedores de un producto");
 
         System.out.print("Introduzca el id del producto: ");
         String idProducto = scan.nextLine();
-        RespuestaHTTP<List<Proveedor>> respuesta = getProveedoresDeUnProducto(idProducto);
+        RespuestaHTTP<List<Proveedor>> respuesta = proveedorController.getProveedoresDeUnProducto(idProducto);
         //proveedorController.getProveedoresProducto(idProducto);
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
