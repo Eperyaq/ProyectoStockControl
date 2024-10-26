@@ -25,8 +25,11 @@ public class AppStockControl {
 
     public static void main(String[] args) {
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
-        EntityManager em = emf.createEntityManager();
+        /*
+        QUERY PARA AÑADIR UN USUARIO
+        INSERT INTO user (nombre_usuario, contrasenia)
+        VALUES ('Elia', '123');
+         */
 
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
@@ -53,7 +56,7 @@ public class AppStockControl {
                     ******************************************************
                     ****    Bienvenid@ a StockControl               ******
                     ******************************************************
-
+                    
                     Introduzca su usuario y contrasena para continuar (0 para salir)
                     """);
             System.out.print("user: ");
@@ -74,7 +77,7 @@ public class AppStockControl {
                     if (respuestaHTTP.getCodigo() == 200) {
                         if (respuestaHTTP.getObj() != null) {
                             System.out.println("Bienvenid@");
-                            user = respuestaHTTP.getObj();
+                            //user = respuestaHTTP.getObj();
                             login = true;
                         } else {
                             System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
@@ -103,6 +106,7 @@ public class AppStockControl {
         8. Get proveedores de un producto
         9. Get todos los proveedores
          */
+        /*
         String opc;
 
         ProveedorController proveedorController = new ProveedorController();
@@ -342,5 +346,8 @@ public class AppStockControl {
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
         }
+    }
+}
+*/
     }
 }

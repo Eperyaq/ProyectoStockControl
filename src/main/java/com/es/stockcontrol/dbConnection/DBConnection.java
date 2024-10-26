@@ -1,11 +1,10 @@
-package com.es.stockcontrol.dbConnection.dbConnection;
+package com.es.stockcontrol.dbConnection;
 
-import com.es.stockcontrol.dbConnection.interfaces.IDBConnection;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class DBConnection implements IDBConnection {
+public class DBConnection {
 
     /**
      * Singleton. Instancia única de EntityManagerFactory
@@ -14,17 +13,16 @@ public class DBConnection implements IDBConnection {
 
     /**
      * Método para obtener un EntityManager
+     * Este es el que hay que usar
      */
-    @Override
-    public EntityManager getEntityManager() {
+    public static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 
     /**
      * Método para cerrar EntityManager
      */
-    @Override
-    public void closeEntityManager(EntityManager entityManager) {
+    public static void closeEntityManager(EntityManager entityManager) {
         if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
         }
@@ -33,7 +31,6 @@ public class DBConnection implements IDBConnection {
     /**
      * Método para cerrar EntityManagerFactory al finalizar la aplicación
      */
-    @Override
     public void closeEntityManagerFactory() {
         if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
             entityManagerFactory.close();

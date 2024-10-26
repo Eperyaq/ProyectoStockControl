@@ -1,69 +1,33 @@
 package com.es.stockcontrol.repository.impl;
 
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.NoResultException;
 
 /**
  * Repositorio de la entidad User que maneja operaciones de persistencia.
  * Utiliza JPA para interactuar con la base de datos.
  */
 public class UserRepository {
-
-
-
-
-
     /**
-     * Inserta un nuevo usuario en la base de datos.
+     * Funcion que va a realizar una busqueda en la base de datos para encontrar un usuario basandose en el nombre
      *
-     * @param nuevoUsuario El objeto User que se va a insertar.
-     * @return El objeto User insertado.
+     * @param nombreUsuario Identificador del usuario por el que se va a buscar
+     * @return un User con el nombre de usuario pasado por parametros
      */
-    public User insertUser(User nuevoUsuario) {
+    public User getUser(String nombreUsuario){
+        EntityManager database = DBConnection.getEntityManager();
 
-        // EntityManagerFactory para gestionar las instancias de EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
-
-        // EntityManager para interactuar con la base de datos
-        EntityManager em = emf.createEntityManager();
-
-        // EntityTransaction para gestionar transacciones de base de datos
-        EntityTransaction transaccion = em.getTransaction();
-
+        User usuarioBuscado = null;
+// WHERE nombre_usuario = 'Elia'
         try {
-            // Inicia la transacción
-            transaccion.begin();
-
-            //Hace un insert en la base de datos
-            em.persist(nuevoUsuario);
-
-            // Confirma la transacción
-            transaccion.commit();
-            return nuevoUsuario;
-
-        } catch (Exception e) {
-            // Si hay un error, revierte la transacción
-            if (transaccion.isActive()) {
-                transaccion.rollback();
-            }
-            // Cierra el EntityManager
-            em.close();
-            return null;
+            usuarioBuscado = database.createQuery("SELECT u FROM User u WHERE u.nombre_usuario = :nombreUsuario", User.class)
+                    .setParameter("nombreUsuario", nombreUsuario)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("No se encontró ningún usuario con el nombre de usuario: " + nombreUsuario);
         }
-        // Retorna el usuario insertado
-
-    }
-
-    public User getUser(String identificador){
-        // EntityManagerFactory para gestionar las instancias de EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
-
-        // EntityManager para interactuar con la base de datos
-        EntityManager em = emf.createEntityManager();
-
-        return em.find(User.class, identificador);
+        return usuarioBuscado;
     }
 }

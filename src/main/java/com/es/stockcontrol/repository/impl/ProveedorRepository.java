@@ -1,6 +1,6 @@
 package com.es.stockcontrol.repository.impl;
 
-import com.es.stockcontrol.dbConnection.interfaces.IDBConnection;
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.repository.interfaces.IProveedorRepository;
 import jakarta.persistence.EntityManager;
@@ -24,18 +24,6 @@ import java.util.List;
  */
 public class ProveedorRepository implements IProveedorRepository {
 
-    private final IDBConnection dbConnection;
-
-    /**
-     * Constructor de la clase ProveedorRepository.
-     * Recibe un objeto IDBConnection para gestionar las conexiones con la base de datos.
-     *
-     * @param dbConnection El objeto de conexión que proporciona los EntityManager necesarios.
-     */
-    public ProveedorRepository(IDBConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }
-
     /**
      * CREATE
      * Inserta un nuevo proveedor en la base de datos.
@@ -45,7 +33,8 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public void insert(String nombre, String direccion) {
-        EntityManager em = dbConnection.getEntityManager();
+
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         Proveedor nuevoProveedor = new Proveedor();
         nuevoProveedor.setNombre(nombre);
         nuevoProveedor.setDireccion(direccion);
@@ -77,7 +66,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public Proveedor getProveedorById(long id) {
-        EntityManager em = dbConnection.getEntityManager();
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         Proveedor proveedor = null;
 
         try {
@@ -108,7 +97,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
-        EntityManager em = dbConnection.getEntityManager();
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         Proveedor proveedor = null;
 
         try {
@@ -140,7 +129,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public void delete(long id) {
-        EntityManager em = dbConnection.getEntityManager();
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         Proveedor proveedor;
 
         try {
@@ -171,7 +160,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public List<Proveedor> getAll() {
-        EntityManager em = dbConnection.getEntityManager();
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         List<Proveedor> proveedores = null;
 
         try {
@@ -198,7 +187,7 @@ public class ProveedorRepository implements IProveedorRepository {
      */
     @Override
     public List<Proveedor> getProveedoresPorProducto(String idProducto) {
-        EntityManager em = dbConnection.getEntityManager();
+        EntityManager em = DBConnection.getEntityManager(); //Elia te ha cambiado esto, ahora si usamos el object no la instancia de la interfaz
         List<Proveedor> proveedores = null;
 
         try {
