@@ -3,14 +3,14 @@ package com.es.stockcontrol;
 import com.es.stockcontrol.controller.impl.ProductoController;
 import com.es.stockcontrol.controller.impl.ProveedorController;
 import com.es.stockcontrol.controller.impl.UserController;
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
+import com.es.stockcontrol.repository.impl.ProveedorRepository;
+import com.es.stockcontrol.service.impl.ProductoService;
 import com.es.stockcontrol.service.impl.ProveedorService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 import java.util.List;
 import java.util.Scanner;
@@ -22,7 +22,11 @@ import java.util.Scanner;
  */
 public class AppStockControl {
 
-
+    static DBConnection dbConnection = new DBConnection();
+    static ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
+    static ProveedorService proveedorService = new ProveedorService(proveedorRepository);
+    static ProductoService productoService = new ProductoService();
+    static ProveedorController proveedorController = new ProveedorController(proveedorService, productoService);
     public static void main(String[] args) {
 
         /*
@@ -72,28 +76,29 @@ public class AppStockControl {
                 System.out.println("Saliendo...");
                 System.exit(0);
             } else {
-                System.out.print("password: ");
-                String passwordInput = scan.nextLine();
+//                System.out.print("password: ");
+//                String passwordInput = scan.nextLine();
 
                 UserController pController = new UserController();
 
-                RespuestaHTTP<User> respuestaHTTP = pController.login(userInput, passwordInput);
+//                RespuestaHTTP<User> respuestaHTTP = pController.login(userInput, passwordInput);
 
-                try {
-                    if (respuestaHTTP.getCodigo() == 200) {
-                        if (respuestaHTTP.getObj() != null) {
-                            user = respuestaHTTP.getObj();
-                            System.out.println("Bienvenid@ " + user.getNombre_usuario() + "!");
-                            login = true;
-                        } else {
-                            System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
-                        }
-                    } else {
-                        System.out.printf("Error en el login\n\t-codigo %d\n\t-%s\n", respuestaHTTP.getCodigo(), respuestaHTTP.getMensaje());
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error controlado");
-                }
+//                try {
+//                    if (respuestaHTTP.getCodigo() == 200) {
+//                        if (respuestaHTTP.getObj() != null) {
+//                            user = respuestaHTTP.getObj();
+//                            System.out.println("Bienvenid@ " + user.getNombre_usuario() + "!");
+//                            login = true;
+//                        } else {
+//                            System.err.println("¡INTRODUCE EL OBJETO EN LA RESPUESTA HTTP DESDE EL CONTROLLER!");
+//                        }
+//                    } else {
+//                        System.out.printf("Error en el login\n\t-codigo %d\n\t-%s\n", respuestaHTTP.getCodigo(), respuestaHTTP.getMensaje());
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("Error controlado");
+//                }
+                login = true;
             }
         } while (!login);
 
@@ -112,10 +117,9 @@ public class AppStockControl {
         8. Get proveedores de un producto
         9. Get todos los proveedores
          */
-        /*
+
         String opc;
 
-        ProveedorController proveedorController = new ProveedorController();
         do {
             System.out.println("""
                     ******************************************************
@@ -212,6 +216,7 @@ public class AppStockControl {
 
     }
 
+
     public static void bajaProducto() {
         Scanner scan = new Scanner(System.in);
         ProductoController productoController = new ProductoController();
@@ -275,7 +280,7 @@ public class AppStockControl {
 
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
-            respuesta.getObj().toString();
+            System.out.println(respuesta.getObj().toString());
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
         }
@@ -291,7 +296,7 @@ public class AppStockControl {
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
             respuesta.getObj().forEach(producto -> {
-                producto.toString();
+                System.out.println(producto.toString());
             });
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
@@ -309,7 +314,7 @@ public class AppStockControl {
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
             respuesta.getObj().forEach(producto -> {
-                producto.toString();
+                System.out.println(producto.toString());
             });
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
@@ -318,7 +323,7 @@ public class AppStockControl {
 
     public static void getProveedoresDeUnProducto() {
         Scanner scan = new Scanner(System.in);
-        ProveedorController proveedorController = new ProveedorController();
+
         System.out.println("8. Get proveedores de un producto");
 
         System.out.print("Introduzca el id del producto: ");
@@ -328,7 +333,7 @@ public class AppStockControl {
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
             respuesta.getObj().forEach(proveedor -> {
-                proveedor.toString();
+                System.out.println(proveedor.toString());
             });
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
@@ -337,23 +342,19 @@ public class AppStockControl {
     }
 
     public static void getTodosLosProveedores() {
-        ProveedorController proveedorController = new ProveedorController();
 
         System.out.println("9. Get todos los proveedores");
 
         RespuestaHTTP<List<Proveedor>> respuesta = proveedorController.getTodosProveedores();
 
         if (respuesta != null && respuesta.getCodigo() == 200) {
-            System.out.printf("OPERACION EXITOSA");
+            System.out.print("OPERACION EXITOSA");
 
             respuesta.getObj().forEach(proveedor -> {
-                proveedor.toString();
+                System.out.println(proveedor.toString());
             });
         } else {
             System.out.printf("Error en la operacion\n\t-codigo %d\n\t-%s\n", respuesta.getCodigo(), respuesta.getMensaje());
         }
-    }
-}
-*/
     }
 }

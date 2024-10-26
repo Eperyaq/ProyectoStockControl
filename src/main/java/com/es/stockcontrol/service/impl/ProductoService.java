@@ -1,8 +1,10 @@
 package com.es.stockcontrol.service.impl;
 
+import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.repository.impl.ProductoRepository;
+import com.es.stockcontrol.repository.impl.ProveedorRepository;
 import com.es.stockcontrol.utils.Utils;
 
 import java.util.ArrayList;
@@ -14,15 +16,25 @@ import static org.hibernate.internal.util.collections.CollectionHelper.listOf;
 public class ProductoService {
 
     private final ProductoRepository productoRepository = new ProductoRepository();
-
+    private final DBConnection dbConnection = new DBConnection();
 
     public Producto createProducto(String categoriaProducto, String nombreProducto, String precioSinIva, String descripcionProducto, String nombreProveedor, String direccionProveedor) {
 
 
-        if (Utils.verificarLista(listOf(categoriaProducto, nombreProducto, precioSinIva, descripcionProducto, nombreProducto, direccionProveedor))) {
-            Proveedor proveedor = new Proveedor(nombreProveedor, direccionProveedor);
+        if (Utils.verificarLista(listOf(categoriaProducto, nombreProducto, precioSinIva, descripcionProducto, nombreProveedor, direccionProveedor))) {
+            ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
+            proveedorRepository.insert(nombreProveedor, direccionProveedor);
+
+            Proveedor proveedor = proveedorRepository.getProveedorByNombre(nombreProducto);
+
+            //Testeo
+            System.out.println(proveedor);
+            if (proveedor == null) {
+                System.out.println("Proveedor nulo");
+            }
+
             Date date = new Date();
-            String id = generarProductoId(categoriaProducto, nombreProducto, proveedor);
+            String id = generarProductoId(categoriaProducto, nombreProducto, nombreProveedor);
             float precioSinIva2 = Float.parseFloat(precioSinIva);
             float precioConIva = (float) (precioSinIva2 * 1.21);
             int stock = 0;
@@ -81,11 +93,16 @@ public class ProductoService {
     }
 
 
-    private String generarProductoId(String categoria, String nombre, Proveedor proveedor) {
+    private String generarProductoId(String categoria, String nombre, String nombreProveedor) {
         String categoria2 = categoria.substring(0, 3);
         String nombre2 = nombre.substring(0, 3);
-        String proveedor2 = proveedor.getNombre().substring(0, 3);
+        String proveedor2 = nombreProveedor.substring(0, 3);
 
-        return categoria2 + nombre2 + proveedor2;
+        String id = categoria2 + nombre2 + proveedor2;
+
+        //Testeo
+        System.out.println(id);
+
+        return id;
     }
 }

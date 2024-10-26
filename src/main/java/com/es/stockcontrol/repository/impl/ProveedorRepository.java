@@ -96,6 +96,16 @@ public class ProveedorRepository implements IProveedorRepository {
         return proveedor;
     }
 
+    public Proveedor getProveedorByNombre(String nombre) {
+
+        List<Proveedor> proveedors = getAll();
+
+        return proveedors.stream()
+                .filter(proveedor -> proveedor.getNombre().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElse(null);
+    }
+
     /**
      * UPDATE
      * @param id Identificador del Proveedor a modificar
