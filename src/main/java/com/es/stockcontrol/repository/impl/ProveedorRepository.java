@@ -4,6 +4,7 @@ import com.es.stockcontrol.dbConnection.DBConnection;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.repository.interfaces.IProveedorRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * Constructor de la clase ProveedorRepository.
      * Recibe un objeto IDBConnection para gestionar las conexiones con la base de datos.
+     *
      * @param dbConnection El objeto de conexión que proporciona los EntityManager necesarios.
      */
     public ProveedorRepository(DBConnection dbConnection) {
@@ -38,192 +40,160 @@ public class ProveedorRepository implements IProveedorRepository {
     /**
      * CREATE
      * Inserta un nuevo proveedor en la base de datos.
+     *
      * @param nombre    Nombre del nuevo proveedor
      * @param direccion Dirección del nuevo proveedor
      */
     @Override
     public void insert(String nombre, String direccion) {
-
         EntityManager em = DBConnection.getEntityManager();
-        Proveedor nuevoProveedor = new Proveedor();
-        nuevoProveedor.setNombre(nombre);
-        nuevoProveedor.setDireccion(direccion);
 
         try {
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setNombre(nombre);
+            nuevoProveedor.setDireccion(direccion);
+
             em.getTransaction().begin();
             em.persist(nuevoProveedor);
             em.getTransaction().commit();
-
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-
+            System.out.println("Error en la creación de nuevo proveedor: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 
-
     /**
-     * READ
-     * Busca un proveedor por su ID.
+     * READ: Busca un proveedor por su ID.
+     *
      * @param id Identificador del proveedor
      * @return Devuelve el Proveedor que coincida con el ID proporcionado
      */
     @Override
     public Proveedor getProveedorById(long id) {
         EntityManager em = DBConnection.getEntityManager();
-        Proveedor proveedor = null;
-
         try {
-            em.getTransaction().begin();
-            proveedor = em.find(Proveedor.class, id);
-            em.getTransaction().commit();
-
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-
+            return em.find(Proveedor.class, id);
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
-        return proveedor;
     }
-
-
 
     /**
      * UPDATE
-     * @param id Identificador del Proveedor a modificar
-     * @param nuevoNombre El nuevo nombre del Proveedor
+     * Actualiza los datos de un proveedor por su ID.
+     *
+     * @param id             Identificador del Proveedor a modificar
+     * @param nuevoNombre    El nuevo nombre del Proveedor
      * @param nuevaDireccion La nueva dirección del Proveedor
      * @return Devuleve el Proveedor modificado
      */
     @Override
     public Proveedor modify(long id, String nuevoNombre, String nuevaDireccion) {
         EntityManager em = DBConnection.getEntityManager();
-        Proveedor proveedor = null;
 
         try {
-            em.getTransaction().begin();
-            proveedor = em.find(Proveedor.class, id);
+            Proveedor proveedor = em.find(Proveedor.class, id);
             if (proveedor != null) {
+                em.getTransaction().begin();
                 proveedor.setNombre(nuevoNombre);
                 proveedor.setDireccion(nuevaDireccion);
+                em.getTransaction().commit();
+                return proveedor;
             }
-            em.getTransaction().commit();
-        } catch (Exception e) {
+            return null;
+        } catch (NoResultException e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-
+            System.out.println("Error al modificar el proveedor: " + e.getMessage());
+            return null;
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
-        return proveedor;
     }
 
     /**
      * DELETE
      * Elimina un proveedor por su ID.
+     *
      * @param id Identificador del proveedor a eliminar
      */
     @Override
     public void delete(long id) {
         EntityManager em = DBConnection.getEntityManager();
-        Proveedor proveedor;
 
         try {
-            em.getTransaction().begin();
-            proveedor = em.find(Proveedor.class, id);
+            Proveedor proveedor = em.find(Proveedor.class, id);
             if (proveedor != null) {
+                em.getTransaction().begin();
                 em.remove(proveedor);
+                em.getTransaction().commit();
             }
-            em.getTransaction().commit();
-
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-
+            System.out.println("Error al eliminar el proveedor: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
-
     }
 
     /**
-     * Obtiene una lista de todos los proveedores registrados en la base de datos.
+     * READ ALL: Obtiene una lista de todos los proveedores registrados en la base de datos.
+     *
      * @return Devuelve una lista con todos los registros de la tabla Proveedores
      */
     @Override
     public List<Proveedor> getAll() {
         EntityManager em = DBConnection.getEntityManager();
-        List<Proveedor> proveedores = null;
-
         try {
-            em.getTransaction().begin();
-            proveedores = em.createQuery("SELECT proveedor FROM Proveedor proveedor", Proveedor.class).getResultList();
-
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-
+            return em.createQuery("SELECT proveedor FROM Proveedor proveedor", Proveedor.class).getResultList();
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
-        return proveedores;
     }
 
     /**
      * Obtiene una lista de proveedores que suministran un producto específico.
+     *
      * @param idProducto El identificador del producto.
      * @return Lista de proveedores que suministran el producto dado.
      */
     @Override
     public List<Proveedor> getProveedoresPorProducto(String idProducto) {
         EntityManager em = DBConnection.getEntityManager();
-        List<Proveedor> proveedores = null;
 
         try {
             em.getTransaction().begin();
-            proveedores = em.createQuery(
-                    """
-                            SELECT proveedor FROM Proveedor proveedor
-                            JOIN proveedor.productos producto
-                            WHERE producto.id =: idProducto;
-                            """,Proveedor.class)
+            return em.createQuery(
+                            """
+                                    SELECT proveedor FROM Proveedor proveedor
+                                    JOIN proveedor.productos producto
+                                    WHERE producto.id =: idProducto;
+                                    """, Proveedor.class)
                     .setParameter("idProducto", idProducto)
                     .getResultList();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
+            System.out.println("Error al obtener proveedores por producto: " + e.getMessage());
+            return List.of();
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
-        return (proveedores != null) ? proveedores : List.of();
     }
 
     /**
      * Obtiene un proveedor por su nombre.
      * Este método busca en la lista de todos los proveedores aquel que tenga
      * un nombre coincidente (ignorando mayúsculas y minúsculas) con el nombre proporcionado.
+     *
      * @param nombre El nombre del proveedor que se desea buscar.
      * @return El objeto Proveedor que coincide con el nombre proporcionado, o null si no se encuentra ninguno.
      */

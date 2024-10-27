@@ -18,7 +18,9 @@ import java.util.Scanner;
 /*
     TODO
 
+    -- Arreglado --
     Arreglar Dar de alta (no mete el proveedor en el producto)
+
     Mejorar codigo
 
  */
