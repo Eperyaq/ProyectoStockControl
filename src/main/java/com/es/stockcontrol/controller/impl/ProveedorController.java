@@ -27,6 +27,80 @@ public class ProveedorController implements ProveedorControllerAPI {
     }
 
     /**
+     * Agrega un nuevo proveedor a la base de datos.
+     * @param nombre El nombre del proveedor.
+     * @param direccion La dirección del proveedor.
+     * @return Un objeto {@link RespuestaHTTP} con:
+     * <ul>
+     *     <li>Código 200 si se ha añadido correctamente.</li>
+     *     <li>Código 400 si los datos proporcionados son inválidos.</li>
+     *     <li>Código 500 si ocurre un error interno en el servidor.</li>
+     * </ul>
+     */
+    public RespuestaHTTP<Void> addProveedor(String nombre, String direccion) {
+        try {
+            if (nombre == null || nombre.trim().isEmpty() || direccion == null || direccion.trim().isEmpty()) {
+                return new RespuestaHTTP<>(400, "Nombre o dirección no válidos.", null);
+            }
+            proveedorService.addProveedor(nombre, direccion);
+            return new RespuestaHTTP<>(200, "Proveedor añadido correctamente.", null);
+        } catch (Exception e) {
+            return new RespuestaHTTP<>(500, "Error interno del servidor " + e.getMessage(), null);
+        }
+    }
+
+    /**
+     * Actualiza un proveedor existente en la base de datos.
+     * @param id El identificador del proveedor.
+     * @param nuevoNombre El nuevo nombre del proveedor.
+     * @param nuevaDireccion La nueva dirección del proveedor.
+     * @return Un objeto {@link RespuestaHTTP} con:
+     * <ul>
+     *     <li>Código 200 si se ha actualizado correctamente.</li>
+     *     <li>Código 400 si los datos proporcionados son inválidos.</li>
+     *     <li>Código 404 si el proveedor no se encuentra.</li>
+     *     <li>Código 500 si ocurre un error interno en el servidor.</li>
+     * </ul>
+     */
+    public RespuestaHTTP<Proveedor> updateProveedor(long id, String nuevoNombre, String nuevaDireccion) {
+        try {
+            if (nuevoNombre == null || nuevoNombre.trim().isEmpty() || nuevaDireccion == null || nuevaDireccion.trim().isEmpty()) {
+                return new RespuestaHTTP<>(400, "Nombre o dirección no válidos.", null);
+            }
+            Proveedor proveedorActualizado = proveedorService.updateProveedor(id, nuevoNombre, nuevaDireccion);
+            if (proveedorActualizado == null) {
+                return new RespuestaHTTP<>(404, "Proveedor no encontrado.", null);
+            }
+            return new RespuestaHTTP<>(200, "Proveedor actualizado correctamente.", proveedorActualizado);
+        } catch (Exception e) {
+            return new RespuestaHTTP<>(500, "Error interno del servidor " + e.getMessage(), null);
+        }
+    }
+
+    /**
+     * Elimina un proveedor de la base de datos.
+     * @param id El identificador del proveedor.
+     * @return Un objeto {@link RespuestaHTTP} con:
+     * <ul>
+     *     <li>Código 200 si se ha eliminado correctamente.</li>
+     *     <li>Código 404 si el proveedor no se encuentra.</li>
+     *     <li>Código 500 si ocurre un error interno en el servidor.</li>
+     * </ul>
+     */
+    public RespuestaHTTP<Void> deleteProveedor(long id) {
+        try {
+            Proveedor proveedor = proveedorService.getProveedorById(id);
+            if (proveedor == null) {
+                return new RespuestaHTTP<>(404, "Proveedor no encontrado.", null);
+            }
+            proveedorService.deleteProveedor(id);
+            return new RespuestaHTTP<>(200, "Proveedor eliminado correctamente.", null);
+        } catch (Exception e) {
+            return new RespuestaHTTP<>(500, "Error interno del servidor " + e.getMessage(), null);
+        }
+    }
+
+    /**
      * Obtiene una lista de proveedores que suministran un producto específico.
      * @param idProducto El identificador del producto a buscar.
      * @return Un objeto {@link RespuestaHTTP} que contiene:
