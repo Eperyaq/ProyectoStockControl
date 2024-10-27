@@ -9,9 +9,9 @@ import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.model.entities.RespuestaHTTP;
 import com.es.stockcontrol.model.entities.User;
 import com.es.stockcontrol.repository.impl.ProveedorRepository;
-import com.es.stockcontrol.repository.impl.UserRepository;
 import com.es.stockcontrol.service.impl.ProductoService;
 import com.es.stockcontrol.service.impl.ProveedorService;
+import com.es.stockcontrol.utils.Initializer;
 
 import java.util.List;
 import java.util.Scanner;
@@ -23,7 +23,11 @@ import java.util.Scanner;
     Arreglar Dar de alta (no mete el proveedor en el producto)
 
     Mejorar codigo
+
  */
+
+
+
 public class AppStockControl {
 
     static DBConnection dbConnection = new DBConnection();
@@ -31,32 +35,18 @@ public class AppStockControl {
     static ProveedorService proveedorService = new ProveedorService(proveedorRepository);
     static ProductoService productoService = new ProductoService();
     static ProveedorController proveedorController = new ProveedorController(proveedorService, productoService);
+
     public static void main(String[] args) {
 
-        /*
-        QUERY PARA AÑADIR UN USUARIO
-        INSERT INTO user (nombre_usuario, contrasenia)
-        VALUES ('Elia', '123');
-
-        INSERT INTO user (nombre_usuario, contrasenia)
-        VALUES ('Sara', '12');
-
-        INSERT INTO user (nombre_usuario, contrasenia)
-        VALUES ('Manu', '1');
+        /* Inyecta los usuatios, si no existen, en la base de datos.
+         * Usuario : Elia
+         * Contrasenia: 123
+         * Usuario Sara
+         * Contraseña: 12
+         * Usuario: Manu
+         * Contraseña: 1
          */
-        UserRepository userRepository = new UserRepository();
-
-        if (userRepository.getUser("Elia") == null) {
-            userRepository.insert("Elia", "123");
-        }
-
-        if (userRepository.getUser("Sara") == null) {
-            userRepository.insert("Sara", "12");
-        }
-
-        if (userRepository.getUser("Manu") == null) {
-            userRepository.insert("Manu", "1");
-        }
+        Initializer.usersInyection();
 
         /*
         Declaro aquí variables que voy a usar durante la ejecución del main
@@ -141,7 +131,7 @@ public class AppStockControl {
                     ******************************************************
                     ****            APP STOCK CONTROL               ******
                     ******************************************************
-
+                    
                     1. Alta producto
                     2. Baja producto
                     3. Modificar nombre producto
@@ -240,7 +230,7 @@ public class AppStockControl {
 
         System.out.print("Introduzca el id del producto: ");
         String idProducto = scan.nextLine();
-        RespuestaHTTP<Producto> respuesta= productoController.bajaProducto(idProducto);
+        RespuestaHTTP<Producto> respuesta = productoController.bajaProducto(idProducto);
 
         if (respuesta != null && respuesta.getCodigo() == 200) {
             System.out.printf("OPERACION EXITOSA");
@@ -328,7 +318,7 @@ public class AppStockControl {
         RespuestaHTTP<List<Producto>> respuesta = productoController.getProductosSinStock();
 
         if (respuesta != null && respuesta.getCodigo() == 200) {
-            System.out.printf("OPERACION EXITOSA");
+            System.out.print("OPERACION EXITOSA");
             respuesta.getObj().forEach(producto -> {
                 System.out.println(producto.toString());
             });
@@ -347,7 +337,7 @@ public class AppStockControl {
         RespuestaHTTP<List<Proveedor>> respuesta = proveedorController.getProveedoresProducto(idProducto);
 
         if (respuesta != null && respuesta.getCodigo() == 200) {
-            System.out.printf("OPERACION EXITOSA");
+            System.out.print("OPERACION EXITOSA");
             respuesta.getObj().forEach(proveedor -> {
                 System.out.println(proveedor.toString());
             });

@@ -12,6 +12,7 @@ import java.util.List;
  * Controlador encargado de manejar las solicitudes relacionadas con la entidad Proveedor.
  */
 public class ProveedorController implements ProveedorControllerAPI {
+
     private final ProveedorService proveedorService;
     private final ProductoService productoService;
 

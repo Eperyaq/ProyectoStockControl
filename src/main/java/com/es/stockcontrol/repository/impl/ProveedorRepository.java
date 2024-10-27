@@ -224,7 +224,6 @@ public class ProveedorRepository implements IProveedorRepository {
      * Obtiene un proveedor por su nombre.
      * Este método busca en la lista de todos los proveedores aquel que tenga
      * un nombre coincidente (ignorando mayúsculas y minúsculas) con el nombre proporcionado.
-     *
      * @param nombre El nombre del proveedor que se desea buscar.
      * @return El objeto Proveedor que coincide con el nombre proporcionado, o null si no se encuentra ninguno.
      */
