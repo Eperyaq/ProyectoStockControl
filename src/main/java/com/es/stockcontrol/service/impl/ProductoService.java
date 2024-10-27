@@ -5,19 +5,20 @@ import com.es.stockcontrol.model.entities.Producto;
 import com.es.stockcontrol.model.entities.Proveedor;
 import com.es.stockcontrol.repository.impl.ProductoRepository;
 import com.es.stockcontrol.repository.impl.ProveedorRepository;
+import com.es.stockcontrol.service.interfaces.IProductoService;
 import com.es.stockcontrol.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.hibernate.internal.util.collections.CollectionHelper.listOf;
 
-public class ProductoService {
+public class ProductoService implements IProductoService {
 
     private final ProductoRepository productoRepository = new ProductoRepository();
     private final DBConnection dbConnection = new DBConnection();
 
+    @Override
     public Producto createProducto(String categoriaProducto, String nombreProducto, String precioSinIva, String descripcionProducto, String nombreProveedor, String direccionProveedor) {
 
 
@@ -46,7 +47,7 @@ public class ProductoService {
         return null;
     }
 
-
+    @Override
     public Producto getProductoById(String id) {
 
         if (id == null || id.isEmpty()) {
@@ -56,13 +57,13 @@ public class ProductoService {
         return productoRepository.getProductoById(id);
     }
 
-
+    @Override
     public List<Producto> getProductosByStock(boolean stockDisponible) {
         return productoRepository.getProductoByStock(stockDisponible);
     }
 
 
-
+    @Override
     public boolean deleteProductoById(String id) {
         if (id == null || id.isEmpty()) {
             return false;
@@ -70,7 +71,7 @@ public class ProductoService {
         return productoRepository.deleteProductoById(id);
     }
 
-
+    @Override
     public Producto updateNombreProducto(String id, String nuevoNombre) {
         if (Utils.verificarLista(listOf(id, nuevoNombre))) {
             return productoRepository.updateNombreProducto(id, nuevoNombre);
@@ -78,7 +79,7 @@ public class ProductoService {
         return null;
     }
 
-
+    @Override
     public Producto updateStockProducto(String id, String nuevoStock) {
         if (Utils.verificarLista(listOf(id, nuevoStock))) {
             try {
@@ -91,7 +92,6 @@ public class ProductoService {
         }
         return null;
     }
-
 
     private String generarProductoId(String categoria, String nombre, String nombreProveedor) {
         String categoria2 = categoria.substring(0, 3);

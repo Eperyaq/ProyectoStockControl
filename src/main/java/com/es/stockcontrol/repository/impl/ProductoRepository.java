@@ -1,14 +1,16 @@
 package com.es.stockcontrol.repository.impl;
 
 import com.es.stockcontrol.model.entities.Producto;
+import com.es.stockcontrol.repository.interfaces.IProductoRepository;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-public class ProductoRepository {
+public class ProductoRepository implements IProductoRepository {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ProyectoStock");
     EntityManager em = emf.createEntityManager();
 
+    @Override
     public Producto createProducto(Producto producto) {
 
         EntityTransaction transaction = em.getTransaction();
@@ -27,6 +29,7 @@ public class ProductoRepository {
         return producto;
     }
 
+    @Override
     public boolean deleteProductoById(String id) {
         Producto producto = em.find(Producto.class, id);
 
@@ -53,6 +56,7 @@ public class ProductoRepository {
         return false;
     }
 
+    @Override
     public Producto updateNombreProducto(String id, String nuevoNombre) {
 
         Producto producto = em.find(Producto.class, id);
@@ -78,6 +82,7 @@ public class ProductoRepository {
         return producto;
     }
 
+    @Override
     public Producto updateStockProducto(String id, int nuevoStock) {
 
         Producto producto = em.find(Producto.class, id);
@@ -104,10 +109,12 @@ public class ProductoRepository {
     }
 
 
+    @Override
     public Producto getProductoById(String id) {
         return em.find(Producto.class, id);
     }
 
+    @Override
     public List<Producto> getProductoByStock(Boolean stock) {
 
         String jpql;
