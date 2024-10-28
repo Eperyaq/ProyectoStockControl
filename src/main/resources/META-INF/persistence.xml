@@ -22,7 +22,8 @@
 
             <!-- Qué lenguaje de BDD se usa -->
 
-            <property name="hibernate.show_sql" value="true" />
+            <!-- Cambiado a false -->
+            <property name="hibernate.show_sql" value="false" />
             <!-- ¿Qué pasa cuando inicio la aplicación? -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>

@@ -122,7 +122,7 @@ public class ProductoRepository implements IProductoRepository {
         if (stock) {
             jpql = "SELECT p FROM Producto p WHERE p.stock > 0";
         } else {
-            jpql = "SELECT p FROM Producto p WHERE p.stock < 0";
+            jpql = "SELECT p FROM Producto p WHERE p.stock = 0";
         }
 
         TypedQuery<Producto> query = em.createQuery(jpql, Producto.class);
