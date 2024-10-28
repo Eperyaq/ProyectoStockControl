@@ -15,15 +15,6 @@ import com.es.stockcontrol.utils.Initializer;
 import java.util.List;
 import java.util.Scanner;
 
-/*
-    TODO
-
-    Arreglar Dar de alta (no mete el proveedor en el producto)
-
-    Mejorar codigo
-
- */
-
 /**
  * Clase principal de la aplicación StockControl.
  * Esta clase se encarga de gestionar el flujo principal de la aplicación y las interacciones con el usuario.
