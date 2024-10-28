@@ -24,15 +24,10 @@ public class ProductoService implements IProductoService {
 
         if (Utils.verificarLista(listOf(categoriaProducto, nombreProducto, precioSinIva, descripcionProducto, nombreProveedor, direccionProveedor))) {
             ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
-            proveedorRepository.insert(nombreProveedor, direccionProveedor);
 
-            Proveedor proveedor = proveedorRepository.getProveedorByNombre(nombreProducto);
-
-            //Testeo
-            System.out.println(proveedor);
-            if (proveedor == null) {
-                System.out.println("Proveedor nulo");
-            }
+            Proveedor proveedor = new Proveedor(nombreProveedor, direccionProveedor);
+            proveedorRepository.insert(proveedor);
+            Proveedor proveedor1 = proveedorRepository.getProveedorByNombre(nombreProveedor);
 
             Date date = new Date();
             String id = generarProductoId(categoriaProducto, nombreProducto, nombreProveedor);
@@ -40,7 +35,7 @@ public class ProductoService implements IProductoService {
             float precioConIva = (float) (precioSinIva2 * 1.21);
             int stock = 0;
 
-            Producto producto = new Producto(id, categoriaProducto, nombreProducto, descripcionProducto, precioSinIva2, precioConIva, date, stock, proveedor);
+            Producto producto = new Producto(id, categoriaProducto, nombreProducto, descripcionProducto, precioSinIva2, precioConIva, date, stock, proveedor1);
 
             return productoRepository.createProducto(producto);
         }

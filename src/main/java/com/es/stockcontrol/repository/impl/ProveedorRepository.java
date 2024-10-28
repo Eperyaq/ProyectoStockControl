@@ -9,6 +9,8 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 
 
+
+
 /**
  * <p>
  * La clase ProveedorRepository proporciona los métodos CRUD para gestionar la entidad Proveedor.
@@ -63,6 +65,27 @@ public class ProveedorRepository implements IProveedorRepository {
             System.out.println("Error en la creación de nuevo proveedor: " + e.getMessage());
         } finally {
             em.close();
+        }
+    }
+
+    public void insert(Proveedor proveedor) {
+
+        EntityManager em = DBConnection.getEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(proveedor);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
