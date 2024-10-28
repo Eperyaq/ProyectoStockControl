@@ -25,8 +25,12 @@ public class ProductoService implements IProductoService {
         if (Utils.verificarLista(listOf(categoriaProducto, nombreProducto, precioSinIva, descripcionProducto, nombreProveedor, direccionProveedor))) {
             ProveedorRepository proveedorRepository = new ProveedorRepository(dbConnection);
 
-            Proveedor proveedor = new Proveedor(nombreProveedor, direccionProveedor);
-            proveedorRepository.insert(proveedor);
+            Proveedor proveedor = proveedorRepository.getProveedorByNombre(nombreProveedor);
+            if (proveedor == null) {
+                proveedor = new Proveedor(nombreProveedor, direccionProveedor);
+                proveedorRepository.insert(proveedor);
+            }
+
             Proveedor proveedor1 = proveedorRepository.getProveedorByNombre(nombreProveedor);
 
             Date date = new Date();
